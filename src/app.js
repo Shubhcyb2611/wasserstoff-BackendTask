@@ -8,6 +8,8 @@ import {
   LOADBALANCER_PORT,
 } from "./config/env.config.js";
 import { requestPayload, responsePayload } from "./middleware/payload.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const ports = {
   REST: REST_PORT,
@@ -35,10 +37,11 @@ const loadBalancerApp = express();
 loadBalancerApp.use(express.json());
 loadBalancerApp.use("/api", genericRouter);
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 loadBalancerApp.get("/", (req, res) => {
-  res.send(
-    "<h1>Welcome to the Load Balancer</h1><p>This is the home page.</p>"
-  );
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 loadBalancerApp.get("/debug", (req, res) => {
