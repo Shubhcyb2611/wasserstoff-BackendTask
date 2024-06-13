@@ -1,0 +1,1190 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kandi-Kosmos API",
+        "description": "This is a StoneTekk API specification",
+        "version": "1.0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:1209/api"
+        },
+        {
+            "url": "https://api.kandikosmos.in/api"
+        }
+    ],
+    "schemes": ["http", "https"],
+    "paths": {
+        "/users": {
+            "get": {
+                "security": [{ "BearerAuth": [] }],
+                "tags": ["Users"],
+                "summary": "Get details of currently signed in user",
+                "description": "Get details of currently signed in user",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create an user",
+                "description": "Create an user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Sign In",
+                "description": "Sign in",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "search results matching criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/users/login/google": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Sign In by google",
+                "description": "Sign in",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserDtoByGoogle"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "search results matching criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "delete": {
+                "security": [{ "BearerAuth": [] }],
+                "tags": ["Users"],
+                "summary": "Delete users",
+                "description": "Delete users",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            },
+            "patch": {
+                "security": [{ "BearerAuth": [] }],
+                "tags": ["Users"],
+                "summary": "Update user by id",
+                "description": "Update user by id",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "202": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/users/refresh": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Refresh Token",
+                "description": "Refresh token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TokenDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "202": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TokenResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/users/email-verify": {
+            "post": {
+                "tags": ["Email Verify"],
+                "description": "",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgotPasswordDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "search results matching criteria"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/users/email-verify/{verifyEmail}": {
+            "patch": {
+                "tags": ["Email Verify"],
+                "description": "",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPasswordDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "verifyEmail",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/batches": {
+            "get": {
+                "tags": ["Batch"],
+                "summary": "Get all  Batches ",
+                "description": "Get all  Batches ",
+                "responses": {
+                    "201": {
+                        "description": "Get all  Batches ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BatchResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Batch"],
+                "summary": "Add  Batch",
+                "description": "Add  Batch",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBatchDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BatchResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/batches/{batchId}": {
+            "get": {
+                "tags": ["Batch"],
+                "summary": "Get Batch by id",
+                "description": "Get Batch by id",
+                "parameters": [
+                    {
+                        "name": "batchId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BatchResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/beads": {
+            "get": {
+                "tags": ["Bead"],
+                "summary": "Get all  Beads of logged in user",
+                "description": "Get all  Beads of logged in user",
+                "responses": {
+                    "201": {
+                        "description": "Successfully Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BeadResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Bead"],
+                "summary": "Add  Bead",
+                "description": "Add  Bead",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBeadDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BeadResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/beads/{beadId}": {
+            "get": {
+                "tags": ["Bead"],
+                "summary": "Get Bead by id",
+                "description": "Get Bead by id",
+                "parameters": [
+                    {
+                        "name": "beadId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DetailedBeadResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Bead"],
+                "summary": "Update Bead",
+                "description": "Update Bead",
+                "parameters": [
+                    {
+                        "name": "beadId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBeadDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "202": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DetailedBeadResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Bead"],
+                "summary": "Delete Bead",
+                "description": "Delete Bead",
+                "parameters": [
+                    {
+                        "name": "beadId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/beads/{beadId}/posts": {
+            "get": {
+                "tags": ["Posts"],
+                "summary": "Get all  posts of user",
+                "description": "Create post",
+                "parameters": [
+                    {
+                        "name": "beadId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PostResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Posts"],
+                "summary": "Create post",
+                "description": "Create post",
+                "parameters": [
+                    {
+                        "name": "beadId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreatePostDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PostResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/beads/{beadId}/posts/{postId}": {
+            "get": {
+                "tags": ["Posts"],
+                "summary": "Get post by id",
+                "description": "Get post by id",
+                "parameters": [
+                    {
+                        "name": "beadId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PostResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Posts"],
+                "summary": "Update post by id",
+                "description": "Update post by id",
+                "parameters": [
+                    {
+                        "name": "beadId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePostDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PostResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Posts"],
+                "summary": "Delete post  by id",
+                "description": "Delete post by id",
+                "parameters": [
+                    {
+                        "name": "beadId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+
+                "responses": {
+                    "201": {
+                        "description": "Successfully Created",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/uploads/images": {
+            "post": {
+                "tags": ["Uploads"],
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Successfully Created",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        },
+        "/uploads/gallery": {
+            "post": {
+                "tags": ["Uploads"],
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/uploads/videos": {
+            "post": {
+                "tags": ["Uploads"],
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "CreateUserDto": {
+                "required": ["email", "password"],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "default": "jane.doe@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "default": "foopass"
+                    }
+                }
+            },
+            "UpdateUserDto": {
+                "type": "object",
+                "properties": {
+                    "profilePic": {
+                        "type": "string",
+                        "default": "https://picsum.photos/300/300"
+                    },
+                    "phoneNumber": {
+                        "type": "string"
+                    },
+
+                    "bio": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string",
+                        "default": "Janice Doe"
+                    },
+                    "profilePic": {
+                        "type": "string",
+                        "default": "https://picsum.photos/300/300"
+                    },
+                    "phoneNumber": {
+                        "type": "string"
+                    },
+
+                    "bio": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateUserDtoByGoogle": {
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TokenDto": {
+                "properties": {
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TokenResponse": {
+                "properties": {
+                    "accessToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateBeadDto": {
+                "required": ["ownerId"],
+                "type": "object",
+                "properties": {
+                    "passCode": {
+                        "type": "string"
+                    },
+                    "colors": { "type": "string array" }
+                }
+            },
+            "UpdateBeadDto": {
+                "required": ["ownerId"],
+                "type": "object",
+                "properties": {
+                    "renewalCode": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DetailedBeadResponse": {
+                "required": ["ownerId"],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "nickName": {
+                        "type": "string",
+                        "default": "jane.doe@example.com"
+                    },
+                    "colors": { "type": "string array" },
+                    "distanceTravelled": {
+                        "type": "number",
+                        "default": "45778.9"
+                    },
+                    "passCode": {
+                        "type": "string"
+                    },
+                    "renewalCode": {
+                        "type": "string"
+                    },
+                    "ownerId": {
+                        "type": "number"
+                    },
+                    "currentOwner": {
+                        "type": "number"
+                    },
+                    "isPublic": { "type": "boolean", "default": false },
+                    "locationHistory": {
+                        "$ref": "#/components/schemas/LocationResponse"
+                    },
+                    "posts": {
+                        "$ref": "#/components/schemas/PostResponse"
+                    }
+                }
+            },
+            "BeadResponse": {
+                "required": ["ownerId"],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "nickName": {
+                        "type": "string",
+                        "default": "jane.doe@example.com"
+                    },
+                    "colors": { "type": "string array" },
+                    "distanceTravelled": {
+                        "type": "number",
+                        "default": "45778.9"
+                    },
+                    "passCode": {
+                        "type": "string"
+                    },
+                    "renewalCode": {
+                        "type": "string"
+                    },
+                    "ownerId": {
+                        "type": "number"
+                    },
+                    "currentOwner": {
+                        "type": "number"
+                    },
+                    "isPublic": { "type": "boolean", "default": false }
+                }
+            },
+            "CreatePostDTO": {
+                "required": ["ownerId", "latitude", "longitude", "image"],
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "string[]"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "default": "78.989"
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "default": "48.999"
+                    }
+                }
+            },
+
+            "UpdatePostDTO": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PostResponse": {
+                "required": ["ownerId"],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "content": {
+                        "type": "string[]"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "location": {
+                        "$ref": "#/components/schemas/LocationResponse"
+                    },
+                    "bead": {
+                        "type": "number"
+                    },
+                    "userId": {
+                        "type": "number"
+                    }
+                }
+            },
+            "CreateTradeDTO": {
+                "required": [
+                    "supplierBeadId",
+                    "receiverBeadId",
+                    "supplierId",
+                    "receiverId"
+                ],
+                "type": "object",
+                "properties": {
+                    "supplierBeadId": {
+                        "type": "number"
+                    },
+                    "receiverBeadId": {
+                        "type": "number"
+                    },
+                    "supplierId": {
+                        "type": "number"
+                    },
+                    "receiverId": {
+                        "type": "number"
+                    },
+                    "gainedXp": {
+                        "type": "number"
+                    }
+                }
+            },
+            "TradeResponse": {
+                "required": [
+                    "supplierBeadId",
+                    "receiverBeadId",
+                    "supplierId",
+                    "receiverId"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "supplierBeadId": {
+                        "type": "number"
+                    },
+                    "receiverBeadId": {
+                        "type": "number"
+                    },
+                    "supplierId": {
+                        "type": "number"
+                    },
+                    "receiverId": {
+                        "type": "number"
+                    },
+                    "gainedXp": {
+                        "type": "number"
+                    }
+                }
+            },
+            "LocationResponse": {
+                "required": ["latitude", "longitude"],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "latitude": {
+                        "type": "number"
+                    },
+                    "longitude": {
+                        "type": "number"
+                    }
+                }
+            },
+            "CreateBatchDto": {
+                "required": ["name", "format"],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "format": {
+                        "type": "string"
+                    }
+                }
+            },
+            "BatchResponse": {
+                "required": ["name", "format"],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "format": {
+                        "type": "string"
+                    },
+                    "originId": {
+                        "type": "number"
+                    },
+                    "beads": {
+                        "$ref": "#/components/schemas/BeadResponse"
+                    }
+                }
+            }
+        }
+    }
+}
